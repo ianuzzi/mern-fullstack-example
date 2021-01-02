@@ -1,0 +1,9 @@
+### Get flat JSON test data
+
+GET http://localhost:5000/api/test
+
+
+
+### GET all testdata from MongoDB
+
+GET http://localhost:5000/api/testdata
