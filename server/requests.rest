@@ -1,9 +1,46 @@
-### Get flat JSON test data
+### Get root ('/') (Will respond with 'ok')
+GET http://localhost:5000/
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMDRjZWZiOGMwZGViNjdkNDU4OTU4OCIsImlhdCI6MTYxMDkyNzg2NywiZXhwIjoxNjEwOTMxNDY3fQ.TPJDNZ8uzRSeWxMByz47VlwWsb6qE2Q47hRroD-KOeQ
 
+###############################################################################
+###   USERS
+###############################################################################
+
+### REGISTER A NEW USER
+POST http://localhost:5000/api/users
+Content-Type: application/json
+
+{
+  "name": "Dawn",
+  "email": "dawn@ianuzzi.us",
+  "password": "lindsay123" 
+}
+
+
+
+### LOG IN A USER (RETURN A JWT)
+POST http://localhost:5000/api/auth
+Content-Type: application/json
+
+{
+  "email": "art@ianuzzi.us",
+  "password": "password123" 
+}
+
+
+
+### GET THE USER INFO FROM THE CURRENT TOKEN
+POST http://localhost:5000/api/auth/user
+Content-Type: application/json
+x-auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMDRjZWZiOGMwZGViNjdkNDU4OTU4OCIsImlhdCI6MTYxMDkyNzg2NywiZXhwIjoxNjEwOTMxNDY3fQ.TPJDNZ8uzRSeWxMByz47VlwWsb6qE2Q47hRroD-KOeQ
+
+
+
+
+### Get flat JSON test data
 GET http://localhost:5000/api/test
 
 
 
 ### GET all testdata from MongoDB
-
 GET http://localhost:5000/api/testdata

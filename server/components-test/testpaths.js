@@ -1,6 +1,9 @@
-// FLAT TESTDATA ROUTE
-
-flatTestData = app => {
+/**
+ * Responds to a GET request to 'api/test' with some flat data from file
+ *
+ * @param app An Express application
+ */
+const flatTestData = app => {
 	app.get('/api/test', function (req, res) {
 		testFlat = [
 			{ id: 1, text: 'Some text' },
@@ -12,9 +15,12 @@ flatTestData = app => {
 	})
 }
 
-// TESTDATA FROM MONGO AND ROUTE
-
-dbTestData = app => {
+/**
+ * Responds to a GET request to '/api/testdata' with test data from MongoDB
+ *
+ * @param app An Express application
+ */
+const dbTestData = app => {
 	const Testdata = require('./testdata')
 
 	app.get('/api/testdata', async (req, res) => {

@@ -4,8 +4,13 @@ require('dotenv').config()
 // EXPRESS
 ///////////////////////////////////////////////////////////////////////////////
 
-var express = require('express')
-var app = express()
+const express = require('express')
+const app = express()
+
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+
+const auth = require('./middleware/auth')
 
 ///////////////////////////////////////////////////////////////////////////////
 // MONGOOSE
@@ -15,7 +20,8 @@ const mongoose = require('mongoose')
 
 mongoose.connect(process.env.DATABASE_URL, {
 	useNewUrlParser: true,
-	useUnifiedTopology: true
+	useUnifiedTopology: true,
+	useCreateIndex: true
 })
 
 const connection = mongoose.connection
@@ -29,8 +35,23 @@ connection.once('open', () => {
 ///////////////////////////////////////////////////////////////////////////////
 
 const TestData = require('./components-test/testpaths')
-TestData.flatTestData(app) // ~/api/test - returns flat data from internal obj
-TestData.dbTestData(app) // ~/api/testdata - returns some data from MongoDB
+TestData.flatTestData(app)
+TestData.dbTestData(app)
+
+///////////////////////////////////////////////////////////////////////////////
+// RANDOM TEST JUNK
+///////////////////////////////////////////////////////////////////////////////
+
+app.get('/', auth, (req, res) => {
+	res.status(200).send('ok')
+})
+
+///////////////////////////////////////////////////////////////////////////////
+// AUTH ROUTES
+///////////////////////////////////////////////////////////////////////////////
+
+app.use('/api/users', require('./routes/users'))
+app.use('/api/auth', require('./routes/userAuth'))
 
 ///////////////////////////////////////////////////////////////////////////////
 // INSTANTIATE THE SERVER
