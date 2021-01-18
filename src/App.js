@@ -1,3 +1,5 @@
+import { Provider } from 'react-redux'
+import store from './reducers/store'
 import {
 	CssBaseline,
 	AppBar,
@@ -12,6 +14,7 @@ import { Menu as MenuIcon } from '@material-ui/icons'
 import FlatDataTest from './components-test/FlatDataTest'
 import DBDataTest from './components-test/DBDataTest'
 import HeaderTest from './components-test/HeaderTest'
+import ReduxTest from './components-test/ReduxTest'
 import 'typeface-roboto'
 import './App.css'
 
@@ -33,7 +36,7 @@ function App() {
 	const classes = useStyles()
 
 	return (
-		<>
+		<Provider store={store}>
 			<div className="App">
 				<CssBaseline />
 				<AppBar position="relative">
@@ -50,7 +53,7 @@ function App() {
 					<div className={classes.heroContent}>
 						<Container maxWidth="md">
 							<HeaderTest />
-
+							<ReduxTest />
 							<FlatDataTest />
 							<DBDataTest />
 							<div className={classes.heroButtons}>
@@ -71,7 +74,7 @@ function App() {
 					</div>
 				</main>
 			</div>
-		</>
+		</Provider>
 	)
 }
 
