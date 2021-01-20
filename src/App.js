@@ -1,5 +1,5 @@
-import { Provider } from 'react-redux'
-import store from './reducers/store'
+import { useEffect } from 'react'
+import { connect } from 'react-redux'
 import {
 	CssBaseline,
 	AppBar,
@@ -15,8 +15,12 @@ import FlatDataTest from './components-test/FlatDataTest'
 import DBDataTest from './components-test/DBDataTest'
 import HeaderTest from './components-test/HeaderTest'
 import ReduxTest from './components-test/ReduxTest'
+import { loadUser } from './reducers'
 import 'typeface-roboto'
 import './App.css'
+import Register from './components/auth/Register'
+import Logout from './components/auth/Logout'
+import Login from './components/auth/Login'
 
 const useStyles = makeStyles(theme => ({
 	icon: {
@@ -31,12 +35,14 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-function App() {
+function App({ loadUser }) {
 	//
 	const classes = useStyles()
 
+	useEffect(() => loadUser(), [loadUser])
+
 	return (
-		<Provider store={store}>
+		<>
 			<div className="App">
 				<CssBaseline />
 				<AppBar position="relative">
@@ -52,6 +58,9 @@ function App() {
 					{/* Hero unit */}
 					<div className={classes.heroContent}>
 						<Container maxWidth="md">
+							<Register />
+							<Logout />
+							<Login />
 							<HeaderTest />
 							<ReduxTest />
 							<FlatDataTest />
@@ -74,8 +83,14 @@ function App() {
 					</div>
 				</main>
 			</div>
-		</Provider>
+		</>
 	)
 }
 
-export default App
+const mapDispatchToProps = dispatch => {
+	return {
+		loadUser: () => dispatch(loadUser())
+	}
+}
+
+export default connect(null, mapDispatchToProps)(App)

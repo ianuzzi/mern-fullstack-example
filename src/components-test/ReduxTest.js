@@ -1,9 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { buyItem, sellItem } from '../reducers'
-import { Typography } from '@material-ui/core'
+import { Typography, Grid, Button, makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+	heroButtons: {
+		marginTop: theme.spacing(4)
+	}
+}))
 
 function TestContainer(props) {
+	const classes = useStyles()
 	return (
 		<>
 			<Typography
@@ -15,12 +22,30 @@ function TestContainer(props) {
 			>
 				Redux example
 			</Typography>
-			<Typography variant="h5" align="center" color="textPrimary">
+			<Typography variant="h5" align="center" color="textSecondary">
 				<p>Number of items - {props.numberOfItems}</p>
-				<p>
-					<button onClick={props.buyItem}>Buy Item</button>
-					<button onClick={props.sellItem}>Sell Item</button>
-				</p>
+				<div className={classes.heroButtons}>
+					<Grid container spacing={2} justify="center">
+						<Grid item>
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={props.buyItem}
+							>
+								Buy Item
+							</Button>
+						</Grid>
+						<Grid item>
+							<Button
+								variant="contained"
+								color="primary"
+								onClick={props.sellItem}
+							>
+								Sell Item
+							</Button>
+						</Grid>
+					</Grid>
+				</div>
 			</Typography>
 		</>
 	)

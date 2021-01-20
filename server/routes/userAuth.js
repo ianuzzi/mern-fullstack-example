@@ -72,7 +72,7 @@ router.post('/user', auth, (req, res) => {
 	User.findById(req.user.id)
 		.select('-password')
 		.then(user => res.send(user))
-		.catch(error => res.status(400).json({ message: error }))
+		.catch(error => res.status(400).json({ message: error.message }))
 })
 
 module.exports = router

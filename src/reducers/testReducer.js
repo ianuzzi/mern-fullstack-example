@@ -38,8 +38,6 @@ const handlers = {
 	[actionTypes.SELL_ITEM]: debitItemCount
 }
 
-console.log(handlers)
-
 //// reducer proper
 
 const initialState = {
