@@ -1,9 +1,18 @@
 import { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import { loginUser, clearErrors } from '../../reducers'
 
+const useQuery = () => {
+	return new URLSearchParams(useLocation().search)
+}
+
 const Register = ({ isAuthenticated, error, loginUser, clearErrors }) => {
-	//
+	//	//
+	const history = useHistory()
+	const rquery = useQuery()
+	const nextPage = rquery.get('redirect')
+
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [message, setMessage] = useState(null)
@@ -16,6 +25,11 @@ const Register = ({ isAuthenticated, error, loginUser, clearErrors }) => {
 		setMessage(error.message)
 		clearErrors()
 	}, [error, clearErrors])
+
+	useEffect(() => {
+		if (!isAuthenticated) return
+		history.push(`${nextPage}`)
+	}, [isAuthenticated])
 
 	const handleSubmit = e => {
 		e.preventDefault()
@@ -45,13 +59,14 @@ const Register = ({ isAuthenticated, error, loginUser, clearErrors }) => {
 
 				<input type="submit" value="Login" />
 			</form>
+			<Link to="/register">Register</Link>
 			<p>{message || ''}</p>
 		</>
 	)
 }
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.isAuthenticated,
+	isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 })
 

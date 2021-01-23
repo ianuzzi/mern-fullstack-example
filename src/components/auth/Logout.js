@@ -1,13 +1,28 @@
-import React from 'react'
 import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { logoutSuccess } from '../../reducers'
+import { Link, Typography } from '@material-ui/core'
+import { useStyles } from '../../MuiTheme'
 
 function Logout({ logoutSuccess }) {
+	//
+	const classes = useStyles()
+
+	const history = useHistory()
+
 	return (
 		<>
-			<a href="" onClick={() => logoutSuccess()}>
+			<Link
+				href=""
+				className={classes.linkStyle}
+				onClick={e => {
+					e.preventDefault()
+					logoutSuccess()
+					history.push('/')
+				}}
+			>
 				Logout
-			</a>
+			</Link>
 		</>
 	)
 }

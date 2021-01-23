@@ -1,8 +1,15 @@
-require('dotenv').config()
-const express = require('express')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const auth = require('../middleware/auth')
+////require('dotenv').config()
+////const express = require('express')
+////const bcrypt = require('bcrypt')
+////const jwt = require('jsonwebtoken')
+////const auth = require('../middleware/auth')
+import dotenv from 'dotenv'
+dotenv.config()
+
+import express from 'express'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import auth from '../middleware/auth.js'
 
 /**
  * @function router
@@ -11,7 +18,8 @@ const router = express.Router()
 
 // user model
 
-const User = require('../models/User')
+////const User = require('../models/User')
+import User from '../models/User.js'
 
 /**
  * @route POST api/auth
@@ -75,4 +83,6 @@ router.post('/user', auth, (req, res) => {
 		.catch(error => res.status(400).json({ message: error.message }))
 })
 
-module.exports = router
+////module.exports = router
+const apiAuth = router
+export default router

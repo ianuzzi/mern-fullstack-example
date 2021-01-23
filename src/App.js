@@ -1,96 +1,68 @@
 import { useEffect } from 'react'
 import { connect } from 'react-redux'
-import {
-	CssBaseline,
-	AppBar,
-	Toolbar,
-	Typography,
-	Grid,
-	Container,
-	Button,
-	makeStyles
-} from '@material-ui/core'
-import { Menu as MenuIcon } from '@material-ui/icons'
-import FlatDataTest from './components-test/FlatDataTest'
-import DBDataTest from './components-test/DBDataTest'
-import HeaderTest from './components-test/HeaderTest'
-import ReduxTest from './components-test/ReduxTest'
+import { BrowserRouter, Route } from 'react-router-dom'
+import ProtectedRoute from './components/route/ProtectedRoute'
 import { loadUser } from './reducers'
+import { CssBaseline, AppBar, Toolbar, Container } from '@material-ui/core'
+import { Menu as MenuIcon } from '@material-ui/icons'
+import { useStyles } from './MuiTheme'
+import { AppBarLink } from './components/ui'
 import 'typeface-roboto'
 import './App.css'
+import TestContent from './components/TestContent'
 import Register from './components/auth/Register'
 import Logout from './components/auth/Logout'
 import Login from './components/auth/Login'
 
-const useStyles = makeStyles(theme => ({
-	icon: {
-		marginRight: theme.spacing(2)
-	},
-	heroContent: {
-		backgroundColor: theme.palette.background.paper,
-		padding: theme.spacing(8, 0, 6)
-	},
-	heroButtons: {
-		marginTop: theme.spacing(4)
-	}
-}))
-
-function App({ loadUser }) {
+function App({ loadUser, isAuthenticated }) {
 	//
 	const classes = useStyles()
 
-	useEffect(() => loadUser(), [loadUser])
+	useEffect(() => loadUser(), [loadUser, isAuthenticated])
 
 	return (
-		<>
-			<div className="App">
+		<div className="App">
+			<BrowserRouter>
 				<CssBaseline />
 				<AppBar position="relative">
 					<Toolbar>
 						<MenuIcon className={classes.icon} />
-						<Typography variant="h6" color="inherit" noWrap>
-							Menu Item
-						</Typography>
+
+						<AppBarLink draggable="false" to="/">
+							Home
+						</AppBarLink>
+						<AppBarLink to="/test">Test Data</AppBarLink>
+						{!isAuthenticated ? (
+							<AppBarLink to="/login">Login</AppBarLink>
+						) : (
+							<AppBarLink>
+								<Logout />
+							</AppBarLink>
+						)}
 					</Toolbar>
 				</AppBar>
-
 				<main>
 					{/* Hero unit */}
 					<div className={classes.heroContent}>
 						<Container maxWidth="md">
-							<Register />
-							<Logout />
-							<Login />
-							<HeaderTest />
-							<ReduxTest />
-							<FlatDataTest />
-							<DBDataTest />
-							<div className={classes.heroButtons}>
-								<Grid container spacing={2} justify="center">
-									<Grid item>
-										<Button variant="contained" color="primary">
-											Main call to action
-										</Button>
-									</Grid>
-									<Grid item>
-										<Button variant="outlined" color="primary">
-											Secondary action
-										</Button>
-									</Grid>
-								</Grid>
-							</div>
+							<ProtectedRoute
+								path="/test"
+								isAuthenticated={isAuthenticated}
+								component={TestContent}
+							/>
+							<Route path="/login" component={Login} />
+							<Route path="/register" exact strict component={Register} />
+							{isAuthenticated ? 'yes' : 'no'}
 						</Container>
 					</div>
 				</main>
-			</div>
-		</>
+			</BrowserRouter>
+		</div> //.App
 	)
 }
 
-const mapDispatchToProps = dispatch => {
-	return {
-		loadUser: () => dispatch(loadUser())
-	}
-}
+const mapStateToProps = state => ({
+	isAuthenticated: state.auth.isAuthenticated
+})
 
-export default connect(null, mapDispatchToProps)(App)
+export default connect(mapStateToProps, { loadUser })(App)

@@ -1,5 +1,10 @@
-require('dotenv').config()
-const jwt = require('jsonwebtoken')
+////require('dotenv').config()
+import dotenv from 'dotenv'
+dotenv.config()
+
+////const jwt = require('jsonwebtoken')
+import jwt from 'jsonwebtoken'
+
 /**
  * Returns next to protected routes if authorized
  * or not authorized response if not
@@ -9,7 +14,7 @@ const jwt = require('jsonwebtoken')
  * @param next
  */
 function auth(req, res, next) {
-	const { token } = req.body
+	const token = req.header('X-Auth-Token')
 	if (!token)
 		return res.status(401).json({ message: 'No token present in request' })
 	else {
@@ -26,4 +31,5 @@ function auth(req, res, next) {
 	}
 }
 
-module.exports = auth
+////module.exports = auth
+export default auth

@@ -5,8 +5,8 @@ import { ThemeProvider } from '@material-ui/core'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import store from './reducers/store'
-
-import theme from './theme'
+//import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import { theme } from './MuiTheme' // Use with Material UI
 
 ReactDOM.render(
 	<React.StrictMode>

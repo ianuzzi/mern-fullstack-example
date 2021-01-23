@@ -8,8 +8,9 @@
 - MaterialUI Core
 - MaterialUI Icons
 - Roboto font
-- Basic auth using JWT
+- Basic backend auth using JWT
 - Redux boilerplate with a test reducer
+- Basic front end auth functions
 
 ### Changed
 

@@ -59,7 +59,7 @@ const Register = ({ isAuthenticated, error, registerUser, clearErrors }) => {
 }
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.isAuthenticated,
+	isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 })
 

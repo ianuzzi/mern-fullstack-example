@@ -1,3 +1,5 @@
+////const Testdata = require('./testdata')
+import Testdata from './testdata.js'
 /**
  * Responds to a GET request to 'api/test' with some flat data from file
  *
@@ -5,7 +7,7 @@
  */
 const flatTestData = app => {
 	app.get('/api/test', function (req, res) {
-		testFlat = [
+		const testFlat = [
 			{ id: 1, text: 'Some text' },
 			{ id: 2, text: 'Some other text' },
 			{ id: 3, text: 'Some more text' }
@@ -21,8 +23,6 @@ const flatTestData = app => {
  * @param app An Express application
  */
 const dbTestData = app => {
-	const Testdata = require('./testdata')
-
 	app.get('/api/testdata', async (req, res) => {
 		try {
 			const testdata = await Testdata.find()
@@ -33,7 +33,9 @@ const dbTestData = app => {
 	})
 }
 
-module.exports = {
-	flatTestData,
-	dbTestData
-}
+// module.exports = {
+// 	flatTestData,
+// 	dbTestData
+// }
+
+export { flatTestData, dbTestData }

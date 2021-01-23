@@ -1,117 +1,62 @@
 import axios from 'axios'
 import { getErrors, clearErrors } from './errorReducer'
 
-const actionTypes = {}
-const handlers = {}
-
 ///////////////////////////////////////////////////////////////////////////////
-// User Loading
+// action types
 ///////////////////////////////////////////////////////////////////////////////
 
-actionTypes.USER_LOADING = 'USER_LOADING'
+export const actionTypes = {
+	USER_LOADING: 'USER_LOADING',
+	USER_LOADED: 'USER_LOADED',
+	AUTH_ERROR: 'AUTH_ERROR',
+	LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+	LOGIN_FAIL: 'LOGIN_FAIL',
+	LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
+	REGISTER_SUCCESS: 'REGISTER_SUCCESS',
+	REGISTER_FAIL: 'REGISTER_FAIL'
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// actions and action creators
+///////////////////////////////////////////////////////////////////////////////
+
+////// simple actions
 
 export const userLoading = () => {
 	return { type: actionTypes.USER_LOADING }
 }
 
-const handleUserLoading = (state, action) => {
-	return {
-		...state,
-		isLoading: true
-	}
-}
-
-handlers[actionTypes.USER_LOADING] = handleUserLoading
-
-///////////////////////////////////////////////////////////////////////////////
-// User Loaded
-///////////////////////////////////////////////////////////////////////////////
-
-actionTypes.USER_LOADED = 'USER_LOADED'
-
 export const userLoaded = payload => {
 	return { type: actionTypes.USER_LOADED, payload }
 }
 
-const handleUserLoaded = (state, action) => {
-	return {
-		...state,
-		isAuthenticated: true,
-		isLoading: false,
-		user: action.payload
-	}
+export const authError = () => {
+	return { type: actionTypes.AUTH_ERROR }
 }
-
-handlers[actionTypes.USER_LOADED] = handleUserLoaded
-
-///////////////////////////////////////////////////////////////////////////////
-// Activate Auth
-///////////////////////////////////////////////////////////////////////////////
-
-actionTypes.LOGIN_SUCCESS = 'LOGIN_SUCCESS'
-actionTypes.REGISTER_SUCCESS = 'REGISTER_SUCCESS'
 
 export const loginSuccess = payload => {
 	return { type: actionTypes.LOGIN_SUCCESS, payload }
 }
+
+export const loginFail = () => {
+	return { type: actionTypes.LOGIN_FAIL }
+}
+
+export const logoutSuccess = () => {
+	return { type: actionTypes.LOGOUT_SUCCESS }
+}
+
 export const registerSuccess = payload => {
 	return { type: actionTypes.REGISTER_SUCCESS, payload }
 }
 
-const handleActivateAuth = (state, action) => {
-	localStorage.setItem('token', action.payload.token)
-	return {
-		...state,
-		...action.payload,
-		isAuthenticated: true,
-		isLoading: false
-	}
-}
-
-handlers[actionTypes.LOGIN_SUCCESS] = handleActivateAuth
-handlers[actionTypes.REGISTER_SUCCESS] = handleActivateAuth
-
-///////////////////////////////////////////////////////////////////////////////
-// Deactivate Auth
-///////////////////////////////////////////////////////////////////////////////
-
-actionTypes.AUTH_ERROR = 'AUTH_ERROR'
-actionTypes.LOGIN_FAIL = 'LOGIN_FAIL'
-actionTypes.LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
-actionTypes.REGISTER_FAIL = 'REGISTER_FAIL'
-
-export const authError = () => {
-	return { type: actionTypes.AUTH_ERROR }
-}
-export const loginFail = () => {
-	return { type: actionTypes.LOGIN_FAIL }
-}
-export const logoutSuccess = () => {
-	return { type: actionTypes.LOGOUT_SUCCESS }
-}
 export const registerFail = () => {
 	return { type: actionTypes.REGISTER_FAIL }
 }
 
-const handleDeactivateAuth = (state, action) => {
-	localStorage.removeItem('token')
-	return {
-		...state,
-		token: null,
-		user: null,
-		isAuthenticated: false,
-		isLoading: false
-	}
-}
+////// compound actions
 
-handlers[actionTypes.AUTH_ERROR] = handleDeactivateAuth
-handlers[actionTypes.LOGIN_FAIL] = handleDeactivateAuth
-handlers[actionTypes.LOGOUT_SUCCESS] = handleDeactivateAuth
-handlers[actionTypes.REGISTER_FAIL] = handleDeactivateAuth
-
-///////////////////////////////////////////////////////////////////////////////
-// Compound Actions
-///////////////////////////////////////////////////////////////////////////////
+// check token and load user
 
 /**
  * Loads the user information of a user that has just logged in and has a valid
@@ -204,8 +149,10 @@ export const loginUser = ({ email, password }) => dispatch => {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// Reducer
+// reducer
 ///////////////////////////////////////////////////////////////////////////////
+
+//// initial state
 
 const initialState = {
 	token: localStorage.getItem('token'),
@@ -213,6 +160,58 @@ const initialState = {
 	isLoading: false,
 	user: null
 }
+
+//// handlers
+
+const handleUserLoading = (state, action) => {
+	return {
+		...state,
+		isLoading: true
+	}
+}
+
+const handleUserLoaded = (state, action) => {
+	return {
+		...state,
+		isAuthenticated: true,
+		isLoading: false,
+		user: action.payload
+	}
+}
+
+const handleActivateAuth = (state, action) => {
+	localStorage.setItem('token', action.payload.token)
+	return {
+		...state,
+		...action.payload,
+		isAuthenticated: true,
+		isLoading: false
+	}
+}
+
+const handleDeactivateAuth = (state, action) => {
+	localStorage.removeItem('token')
+	return {
+		...state,
+		token: null,
+		user: null,
+		isAuthenticated: false,
+		isLoading: false
+	}
+}
+
+const handlers = {
+	[actionTypes.USER_LOADING]: handleUserLoading,
+	[actionTypes.USER_LOADED]: handleUserLoaded,
+	[actionTypes.AUTH_ERROR]: handleDeactivateAuth,
+	[actionTypes.LOGIN_SUCCESS]: handleActivateAuth,
+	[actionTypes.LOGIN_FAIL]: handleDeactivateAuth,
+	[actionTypes.LOGOUT_SUCCESS]: handleDeactivateAuth,
+	[actionTypes.REGISTER_SUCCESS]: handleActivateAuth,
+	[actionTypes.REGISTER_FAIL]: handleDeactivateAuth
+}
+
+//// reducer proper
 
 const reducerFactory = (initialState, handlers) => {
 	return (state = initialState, action) => {
