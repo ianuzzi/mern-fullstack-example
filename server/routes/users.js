@@ -1,8 +1,3 @@
-// require('dotenv').config()
-// const express = require('express')
-// const bcrypt = require('bcrypt')
-// const jwt = require('jsonwebtoken')
-
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -17,7 +12,6 @@ const router = express.Router()
 
 // user model
 
-////const User = require('../models/User')
 import User from '../models/User.js'
 /**
  * @route POST api/users

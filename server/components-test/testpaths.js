@@ -1,4 +1,3 @@
-////const Testdata = require('./testdata')
 import Testdata from './testdata.js'
 /**
  * Responds to a GET request to 'api/test' with some flat data from file
@@ -32,10 +31,5 @@ const dbTestData = app => {
 		}
 	})
 }
-
-// module.exports = {
-// 	flatTestData,
-// 	dbTestData
-// }
 
 export { flatTestData, dbTestData }

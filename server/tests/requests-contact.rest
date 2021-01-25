@@ -1,0 +1,52 @@
+###############################################################################
+###   CONTACTS
+###############################################################################
+
+### CREATE A NEW CONTACT
+POST http://localhost:5000/api/contacts
+Content-Type: application/json
+
+{
+  "name":"Alice",
+  "company":"Brown",
+  "street1":"1313 Mockinbird Lane",
+  "street2":"Unit 1243",
+  "city":"New York",
+  "state":"NY",
+  "zip":"10101",
+  "email":"alice@smith.com"
+}
+
+
+
+### GET ALL CONTACTS
+GET http://localhost:5000/api/contacts
+
+
+
+### GET A CONTACT BY ID
+GET http://localhost:5000/api/contacts/600c9b5ef96c0c4720c85c1c
+
+
+
+### UPDATE/PATCH A CONTACT BY ID
+PATCH http://localhost:5000/api/contacts/600c9b5ef96c0c4720c85c1c
+Content-Type: application/json
+
+{
+  "name": "Freda",
+  "company": "Jones",
+  "street1": "12 Main Street",
+  "street2": "Suite 16",
+  "city": "New York",
+  "state": "NY",
+  "zip": "10101",
+  "email": "fred@jones.com"
+}
+
+
+
+### DELETE A CONTACT BY ID
+DELETE http://localhost:5000/api/contacts/600ca07ea7d3c5235c9e2a43
+
+

@@ -13,6 +13,7 @@ import TestContent from './components/TestContent'
 import Register from './components/auth/Register'
 import Logout from './components/auth/Logout'
 import Login from './components/auth/Login'
+import Contacts from './components/contacts/Contacts'
 
 function App({ loadUser, isAuthenticated }) {
 	//
@@ -28,9 +29,9 @@ function App({ loadUser, isAuthenticated }) {
 					<Toolbar>
 						<MenuIcon className={classes.icon} />
 
-						<AppBarLink draggable="false" to="/">
-							Home
-						</AppBarLink>
+						<AppBarLink to="/">Home</AppBarLink>
+						<AppBarLink to="/contacts">Contacts</AppBarLink>
+
 						<AppBarLink to="/test">Test Data</AppBarLink>
 						{!isAuthenticated ? (
 							<AppBarLink to="/login">Login</AppBarLink>
@@ -50,9 +51,10 @@ function App({ loadUser, isAuthenticated }) {
 								isAuthenticated={isAuthenticated}
 								component={TestContent}
 							/>
+							<Route path="/contacts" exact strict component={Contacts} />
 							<Route path="/login" component={Login} />
 							<Route path="/register" exact strict component={Register} />
-							{isAuthenticated ? 'yes' : 'no'}
+							{/* {isAuthenticated ? 'yes' : 'no'} */}
 						</Container>
 					</div>
 				</main>

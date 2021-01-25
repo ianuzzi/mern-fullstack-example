@@ -11,7 +11,7 @@ const Register = ({ isAuthenticated, error, loginUser, clearErrors }) => {
 	//	//
 	const history = useHistory()
 	const rquery = useQuery()
-	const nextPage = rquery.get('redirect')
+	const nextPage = rquery.get('redirect') || ''
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
