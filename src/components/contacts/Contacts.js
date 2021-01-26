@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
+import { Link as RRLink } from 'react-router-dom'
 import {
 	Typography,
 	Table,
@@ -19,6 +20,7 @@ const Contacts = () => {
 		axios
 			.get(`http://localhost:3000/api/contacts`)
 			.then(response => {
+				console.log(response.data)
 				setContacts(response.data)
 			})
 			.catch(error => {
@@ -33,7 +35,6 @@ const Contacts = () => {
 				<TableHead>
 					<TableRow>
 						<TableCell>Name</TableCell>
-						<TableCell></TableCell>
 						<TableCell>Email</TableCell>
 					</TableRow>
 				</TableHead>

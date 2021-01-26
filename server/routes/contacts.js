@@ -41,16 +41,7 @@ contactsRoute.post('/', async (req, res) => {
 	if (!req.body.name && !req.body.company)
 		return res.status(400).json({ message: 'Required info missing' })
 
-	const contact = new Contact({
-		name: req.body.name,
-		company: req.body.company,
-		street1: req.body.street1,
-		street2: req.body.street2,
-		city: req.body.city,
-		state: req.body.state,
-		zip: req.body.zip,
-		email: req.body.email
-	})
+	const contact = new Contact(req.body)
 
 	try {
 		const newContact = await contact.save()
@@ -100,6 +91,7 @@ contactsRoute.get('/:id', getContact, async (req, res) => {
  *
  * @desc Updates a single contact by contact id
  * @access Private
+ * res.contact is contact document object added by middleware
  */
 contactsRoute.patch('/:id', getContact, async (req, res) => {
 	//

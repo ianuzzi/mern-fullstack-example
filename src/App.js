@@ -13,7 +13,7 @@ import TestContent from './components/TestContent'
 import Register from './components/auth/Register'
 import Logout from './components/auth/Logout'
 import Login from './components/auth/Login'
-import Contacts from './components/contacts/Contacts'
+import { Contacts, ContactDetail } from './components/contacts'
 
 function App({ loadUser, isAuthenticated }) {
 	//
@@ -52,6 +52,12 @@ function App({ loadUser, isAuthenticated }) {
 								component={TestContent}
 							/>
 							<Route path="/contacts" exact strict component={Contacts} />
+							<Route
+								path="/contacts/:id"
+								exact
+								strict
+								component={ContactDetail}
+							/>
 							<Route path="/login" component={Login} />
 							<Route path="/register" exact strict component={Register} />
 							{/* {isAuthenticated ? 'yes' : 'no'} */}
